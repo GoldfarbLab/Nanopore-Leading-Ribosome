@@ -5,7 +5,7 @@
 #BSUB -J align_nanopore
 #BSUB -q general
 #BSUB -n 8
-#BSUB -M 16000000
+#BSUB -M 4000000
 #BSUB -W 60
 #BSUB -R 'span[hosts=1]'
 #BSUB -o /scratch1/fs1/d.goldfarb/Nanopore/logs/align_nanopore_output.%J.txt
@@ -13,4 +13,4 @@
 
 source ./config.sh
 
-minimap2 -a -x splice -u f -k 14 ${REF_PATH}/sacCer3.fa -G 3000 -t 8 --junc-bed ${REF_PATH}/introns.bed --secondary=no --sam-hit-only ${DATA_PATH}/batch1/fastq_pass_hel2ski2_polysomes/*.gz > ${SCRATCH_PATH}/reads.sam 
+minimap2 -a -x splice -u f -k 14 ${GENOME} -G 3000 -t 8 --junc-bed ${INTRONS} --secondary=no --sam-hit-only ${DATA_PATH} > ${SCRATCH_PATH}/${DATA_NAME}_reads.sam 

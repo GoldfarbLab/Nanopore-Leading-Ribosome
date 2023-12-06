@@ -1,0 +1,15 @@
+#!/bin/bash
+#BSUB -g /d.goldfarb/compute
+#BSUB -G compute-d.goldfarb
+#BSUB -a 'docker(mgibio/samtools-cwl:latest)'
+#BSUB -J bam_nanopore
+#BSUB -q general
+#BSUB -n 1
+#BSUB -M 4000000
+#BSUB -W 60
+#BSUB -o /scratch1/fs1/d.goldfarb/Nanopore/logs/bam_nanopore_output.%J.txt
+#BSUB -e /scratch1/fs1/d.goldfarb/Nanopore/logs/bam_nanopore_error.%J.txt
+
+source ./config.sh
+
+samtools view -h -q 60 -F 2048 ${SCRATCH_PATH}/${DATA_NAME}_reads.sam | samtools sort -@ 8 -o ${SCRATCH_PATH}/${DATA_NAME}_reads.bam 
