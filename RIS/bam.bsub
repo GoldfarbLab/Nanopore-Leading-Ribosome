@@ -1,7 +1,7 @@
 #!/bin/bash
 #BSUB -g /d.goldfarb/compute
 #BSUB -G compute-d.goldfarb
-#BSUB -a 'docker(mgibio/samtools-cwl:latest)'
+#BSUB -a 'docker(mgibio/samtools-cwl:1.16.1)'
 #BSUB -J bam_nanopore
 #BSUB -q general
 #BSUB -n 1
@@ -13,3 +13,4 @@
 source ./config.sh
 
 samtools view -h -q 60 -F 2048 ${SCRATCH_PATH}/${DATA_NAME}_reads.sam | samtools sort -@ 8 -o ${SCRATCH_PATH}/${DATA_NAME}_reads.bam 
+samtools index ${SCRATCH_PATH}/${DATA_NAME}_reads.bam
