@@ -2,13 +2,13 @@
 #BSUB -g /d.goldfarb/compute
 #BSUB -G compute-d.goldfarb
 #BSUB -a 'docker(staphb/bedtools:latest)'
-#BSUB -J bigwig_nanopore
+#BSUB -J bedgraph_nanopore
 #BSUB -q general
 #BSUB -n 1
 #BSUB -M 4000000
 #BSUB -W 60
-#BSUB -o /scratch1/fs1/d.goldfarb/Nanopore/logs/bigwig_nanopore_output.%J.txt
-#BSUB -e /scratch1/fs1/d.goldfarb/Nanopore/logs/bigwig_nanopore_error.%J.txt
+#BSUB -o /scratch1/fs1/d.goldfarb/Nanopore/logs/bedgraph_nanopore_output.%J.txt
+#BSUB -e /scratch1/fs1/d.goldfarb/Nanopore/logs/bedgraph_nanopore_error.%J.txt
 
 source ./config.sh
 
