@@ -12,5 +12,5 @@
 
 source ./config.sh
 
-samtools view -h -q 60 -F 2048 ${SCRATCH_PATH}/${DATA_NAME}_reads.sam | samtools sort -@ 8 -o ${SCRATCH_PATH}/${DATA_NAME}_reads.bam 
-samtools index ${SCRATCH_PATH}/${DATA_NAME}_reads.bam
+samtools view -h -q 60 -F 2048 ${RESULTS_PATH}/${DATA_NAME}_reads.sam | samtools sort -@ 8 -o ${RESULTS_PATH}/${DATA_NAME}_reads.bam 
+samtools index ${RESULTS_PATH}/${DATA_NAME}_reads.bam

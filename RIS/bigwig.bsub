@@ -12,5 +12,5 @@
 
 source ./config.sh
 
-sort -k1,1 -k2,2n ${SCRATCH_PATH}/${DATA_NAME}.bg > ${SCRATCH_PATH}/${DATA_NAME}_sorted.bg 
-bedGraphToBigWig ${SCRATCH_PATH}/${DATA_NAME}_sorted.bg $CHROMSIZE ${SCRATCH_PATH}/${DATA_NAME}.bw
+sort -k1,1 -k2,2n ${RESULTS_PATH}/${DATA_NAME}.bg > ${RESULTS_PATH}/${DATA_NAME}_sorted.bg 
+bedGraphToBigWig ${RESULTS_PATH}/${DATA_NAME}_sorted.bg $CHROMSIZE ${RESULTS_PATH}/${DATA_NAME}.bw

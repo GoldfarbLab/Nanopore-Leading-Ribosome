@@ -13,4 +13,4 @@
 
 source ./config.sh
 
-minimap2 -a -x splice -u f -k 14 ${GENOME} -G 3000 -t 8 --junc-bed ${INTRONS} --secondary=no --sam-hit-only ${DATA_PATH} > ${SCRATCH_PATH}/${DATA_NAME}_reads.sam 
+minimap2 -a -x splice -u f -k 14 ${GENOME} -G 3000 -t 8 --junc-bed ${INTRONS} --secondary=no --sam-hit-only ${DATA_PATH} > ${RESULTS_PATH}/${DATA_NAME}_reads.sam 
