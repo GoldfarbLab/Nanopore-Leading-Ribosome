@@ -9,6 +9,7 @@ SCRATCH_PATH="/scratch1/fs1/d.goldfarb/Nanopore/"
 # reference files
 GENOME=${REF_PATH}/sacCer3.fa
 INTRONS=${REF_PATH}/introns.bed
+CHROMSIZE=${REF_PATH}/chrom.sizes
 
 # parameters
 DATA_NAME="hel2ski2_polysomes"
