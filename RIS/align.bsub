@@ -1,6 +1,6 @@
 #!/bin/bash
-#BSUB -g /d.goldfarb/compute
-#BSUB -G compute-d.goldfarb
+#BSUB -g LSF_g
+#BSUB -G LSF_G
 #BSUB -a 'docker(niemasd/minimap2:latest)'
 #BSUB -J align_nanopore
 #BSUB -q general
@@ -8,9 +8,9 @@
 #BSUB -M 4000000
 #BSUB -W 60
 #BSUB -R 'span[hosts=1]'
-#BSUB -o /scratch1/fs1/d.goldfarb/Nanopore/logs/align_nanopore_output.%J.txt
-#BSUB -e /scratch1/fs1/d.goldfarb/Nanopore/logs/align_nanopore_error.%J.txt
+#BSUB -o LSF_LOG_PATH/align_nanopore.%J.out.txt
+#BSUB -e LSF_LOG_PATH/align_nanopore.%J.err.txt
 
-source ./config.sh
+source LSF_SCRIPT_PATH/config.sh
 
 minimap2 -a -x splice -u f -k 14 ${GENOME} -G 3000 -t 8 --junc-bed ${INTRONS} --secondary=no --sam-hit-only ${DATA_PATH} > ${RESULTS_PATH}/${DATA_NAME}_reads.sam 
