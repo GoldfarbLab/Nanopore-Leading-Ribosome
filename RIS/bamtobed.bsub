@@ -1,0 +1,32 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(staphb/bedtools:latest)'
+#BSUB -J bamtobed
+#BSUB -q general
+#BSUB -n 1
+#BSUB -M 4000000
+#BSUB -W 60
+#BSUB -o LSF_LOG_PATH/bamtobed.%J.out.txt
+#BSUB -e LSF_LOG_PATH/bamtobed.%J.err.txt
+
+source LSF_SCRIPT_PATH/config.sh
+
+# Convert to bed format
+bedtools bamtobed -i ${RESULTS_PATH}/${DATA_NAME}_reads.bam > ${RESULTS_PATH}/${DATA_NAME}.bed
+
+# Get the end of the reads (i.e. where the ribosome toe is)
+bedtools flank -i ${RESULTS_PATH}/${DATA_NAME}.bed -g $CHROMSIZE -l 1 -r 0 -s > ${RESULTS_PATH}/${DATA_NAME}_read_ends.bed
+
+# Intersect the ribosome toe with known transcripts
+bedtools intersect -a ${RESULTS_PATH}/${DATA_NAME}_read_ends.bed -b $TRANSCRIPTS -s > ${RESULTS_PATH}/${DATA_NAME}_intersection.bed
+
+# Extract 30 nucleotides upstream (i.e. the sequence inside the ribosome)
+# Bed files are "half open" meaning that they include the starting index but exclude the end index. So we ask for genomic position +31 to 30 NTs
+bedtools flank -i  ${RESULTS_PATH}/${DATA_NAME}_intersection.bed -g $CHROMSIZE -l 31 -r 0 -s > ${RESULTS_PATH}/${DATA_NAME}_ribosome_occupancy.bed
+
+# Make sure the results are grouped by the chromosome
+sort -k 1,1 ${RESULTS_PATH}/${DATA_NAME}_ribosome_occupancy.bed > ${RESULTS_PATH}/${DATA_NAME}_ribosome_occupancy.sorted.bed
+
+# Create bam file for visualization
+bedtools bedtobam -i ${RESULTS_PATH}/${DATA_NAME}_ribosome_occupancy.sorted.bed -g $CHROMSIZE > ${RESULTS_PATH}/${DATA_NAME}_ribosome_occupancy.bam

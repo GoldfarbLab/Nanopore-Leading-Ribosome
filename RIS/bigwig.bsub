@@ -2,13 +2,13 @@
 #BSUB -g LSF_g
 #BSUB -G LSF_G
 #BSUB -a 'docker(zavolab/bedgraphtobigwig:4)'
-#BSUB -J bigwig_nanopore
+#BSUB -J bigwig
 #BSUB -q general
 #BSUB -n 1
 #BSUB -M 4000000
 #BSUB -W 60
-#BSUB -o LSF_LOG_PATH/bigwig_nanopore.%J.out.txt
-#BSUB -e LSF_LOG_PATH/bigwig_nanopore.%J.err.txt
+#BSUB -o LSF_LOG_PATH/bigwig.%J.out.txt
+#BSUB -e LSF_LOG_PATH/bigwig.%J.err.txt
 
 source LSF_SCRIPT_PATH/config.sh
 

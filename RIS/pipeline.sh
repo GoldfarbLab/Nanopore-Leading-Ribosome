@@ -32,5 +32,8 @@ echo Submitted bedgraph job for $DATA_NAME with ID: $jid3
 jid4=$(get_jobid bsub -w "ended($jid3)" < $SCRIPT_PATH/bigwig.bsub)
 echo Submitted bigwig job for $DATA_NAME with ID: $jid4
 
+jid5=$(get_jobid bsub -w "ended($jid2)" < $SCRIPT_PATH/bamtobed.bsub)
+echo Submitted bamtobed job for $DATA_NAME with ID: $jid5
 
-
+jid6=$(get_jobid bsub -w "ended($jid5)" < $SCRIPT_PATH/ribosome_bam.bsub)
+echo Submitted ribosome_bam job for $DATA_NAME with ID: $jid6

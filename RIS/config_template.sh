@@ -24,4 +24,4 @@ SCRIPT_PATH=${OUT_PATH}/scripts
 GENOME=${REF_PATH}/sacCer3.fa
 INTRONS=${REF_PATH}/introns.bed
 CHROMSIZE=${REF_PATH}/chrom.sizes
-
+TRANSCRIPTS=${REF_PATH}/transcripts.gff
