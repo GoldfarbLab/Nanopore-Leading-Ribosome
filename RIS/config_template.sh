@@ -15,7 +15,7 @@ SRC_PATH=${PROJECT_PATH}/source
 SCRATCH_PATH=/scratch1/fs1/d.goldfarb/Nanopore/
 
 # output paths
-OUT_PATH=${SCRATCH_PATH}/${DATA_NAME}
+OUT_PATH=${SCRATCH_PATH}/${DATA_NAME}/ANALYSIS_TYPE
 RESULTS_PATH=${OUT_PATH}/results
 LOG_PATH=${OUT_PATH}/logs
 SCRIPT_PATH=${OUT_PATH}/scripts
