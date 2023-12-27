@@ -22,6 +22,7 @@ SCRIPT_PATH=${OUT_PATH}/scripts
 
 # reference files
 GENOME=${REF_PATH}/sacCer3.fa
-INTRONS=${REF_PATH}/introns.bed
+INTRONS=${REF_PATH}/introns.bed6
 CHROMSIZE=${REF_PATH}/chrom.sizes
 TRANSCRIPTS=${REF_PATH}/transcripts.gff
+ANNOTATIONS=${REF_PATH}/Saccharomyces_cerevisiae.R64-1-1.110_v3.gtf

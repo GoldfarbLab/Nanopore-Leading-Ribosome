@@ -5,7 +5,7 @@
 #BSUB -J bam
 #BSUB -q general
 #BSUB -n 1
-#BSUB -M 4000000
+#BSUB -M 4000
 #BSUB -W 60
 #BSUB -o LSF_LOG_PATH/bam.%J.out.txt
 #BSUB -e LSF_LOG_PATH/bam.%J.err.txt

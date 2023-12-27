@@ -18,7 +18,7 @@ mkdir $LOG_PATH
 mkdir $SCRIPT_PATH
 
 # Update scripts with dataset specific parameters
-declare -a scripts=("align.bsub" "bam.bsub" "bedgraph.bsub" "bigwig.bsub" "bamtobed.bsub" "ribosome_bam.bsub")
+declare -a scripts=("align.bsub" "bam.bsub" "bedgraph.bsub" "bigwig.bsub" "bamtobed.bsub" "ribosome_bam.bsub" "flair.bsub" "collapse.bsub")
 
 for val in ${scripts[@]}; do
     sed "s+LSF_g+$LSF_g+g" < $val > $SCRIPT_PATH/$val

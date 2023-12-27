@@ -1,0 +1,19 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(brookslab/flair:latest)'
+#BSUB -J flair
+#BSUB -q general
+#BSUB -n 32
+#BSUB -M 128000
+#BSUB -W 600
+#BSUB -R 'span[hosts=1]'
+#BSUB -o LSF_LOG_PATH/flair.%J.out.txt
+#BSUB -e LSF_LOG_PATH/flair.%J.err.txt
+
+source LSF_SCRIPT_PATH/config.sh
+
+flair collapse -g ${GENOME} --threads 32 -q /scratch1/fs1/d.goldfarb/Nanopore/combined/combined_flair_all_corrected.bed -r /scratch1/fs1/d.goldfarb/Nanopore/combined/reads.gz --output /scratch1/fs1/d.goldfarb/Nanopore/combined/flair.collapse
+
+# recommended parameters
+#flair collapse -g ${GENOME} --gtf ${ANNOTATIONS} -q reads.flair_all_corrected.bed -r ${DATA_PATH} --stringent --no_gtf_end_adjustment --check_splice --generate_map --trust_ends –-annotation-reliant generate
