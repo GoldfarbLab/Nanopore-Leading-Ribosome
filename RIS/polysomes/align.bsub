@@ -1,0 +1,20 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(niemasd/minimap2:latest)'
+#BSUB -J align
+#BSUB -q general
+#BSUB -n 8
+#BSUB -M 4000
+#BSUB -W 60
+#BSUB -R 'span[hosts=1]'
+#BSUB -o LSF_LOG_PATH/align.%J.out.txt
+#BSUB -e LSF_LOG_PATH/align.%J.err.txt
+
+source LSF_SCRIPT_PATH/config.sh
+
+# Make output directory
+mkdir -p ${RESULTS_PATH}/align
+
+minimap2 -a -x splice -u f -k 14 ${TRANSCRIPTOME} -G 3000 -t 8 --secondary=no --sam-hit-only ${DATA_PATH} > ${RESULTS_PATH}/align/${DATA_BASE_NAME}_transcriptome_aligned.sam
+minimap2 -a -x splice -u f -k 14 ${GENOME} -G 3000 -t 8 --junc-bed ${INTRONS} --secondary=no --sam-hit-only ${DATA_PATH} > ${RESULTS_PATH}/align/${DATA_BASE_NAME}_genome_aligned.sam

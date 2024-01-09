@@ -1,0 +1,40 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(staphb/bedtools:latest)'
+#BSUB -J bed
+#BSUB -q general
+#BSUB -n 1
+#BSUB -M 4000
+#BSUB -W 60
+#BSUB -o LSF_LOG_PATH/bed.%J.out.txt
+#BSUB -e LSF_LOG_PATH/bed.%J.err.txt
+
+source LSF_SCRIPT_PATH/config.sh
+
+# Make output directory
+mkdir -p ${RESULTS_PATH}/bed
+
+# Convert to bed format
+bedtools bamtobed -i ${RESULTS_PATH}/bam/${DATA_BASE_NAME}_transcriptome_aligned.bam  > ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_transcriptome_aligned.bed
+bedtools bamtobed -i ${RESULTS_PATH}/bam/${DATA_BASE_NAME}_genome_aligned.bam  > ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_genome_aligned.bed
+
+# Extract 33 nucleotides upstream (i.e. the sequence inside the ribosome plus 3 extra)
+# Bed files are "half open" meaning that they include the starting index but exclude the end index. So we ask for genomic position +34 to get 33 NTs
+bedtools flank -i ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_transcriptome_aligned.bed -g $TRANSCRIPTOME_SIZES -l $NUM_UPSTREAM_NT -r 0 -s > ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_occupancy.bed
+# Extract everything upstream for getting the translated peptide sequence
+bedtools flank -i ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_transcriptome_aligned.bed -g $TRANSCRIPTOME_SIZES -l 100000000 -r 0 -s > ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_upstream.bed
+
+# Extract the sequence (based on strand) from the transcriptome
+bedtools getfasta -fi ${TRANSCRIPTOME} -bed ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_occupancy.bed -fo ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_occupancy.bed.fa
+bedtools getfasta -fi ${TRANSCRIPTOME} -bed ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_upstream.bed -fo ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_upstream.bed.fa
+
+# Create bam file
+# Make sure the results are grouped by the chromosome
+sort -k 1,1 ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_occupancy.bed > ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_occupancy.sorted.bed
+bedtools bedtobam -i ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_occupancy.sorted.bed -g $TRANSCRIPTOME_SIZES > ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_occupancy.bam
+
+# Make bedgraph
+bedtools genomecov -ibam ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_occupancy.bam -bg > ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_occupancy.bg 
+
+

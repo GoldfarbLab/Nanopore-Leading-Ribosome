@@ -1,0 +1,22 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(biocontainers/pandas:1.5.1_cv1)'
+#BSUB -J format_domains
+#BSUB -q general
+#BSUB -n 1
+#BSUB -M 4000
+#BSUB -W 600
+#BSUB -R 'span[hosts=1]'
+#BSUB -o LSF_LOG_PATH/format_domains.%J.out.txt
+#BSUB -e LSF_LOG_PATH/format_domains.%J.err.txt
+
+source LSF_SCRIPT_PATH/config.sh
+
+# Make output directory
+mkdir -p ${RESULTS_PATH}/format_domains/
+
+cat ${RESULTS_PATH}/domains/isoforms_aa.fasta_*gff3 > ${RESULTS_PATH}/format_domains/isoform_domains.gff3
+cat ${RESULTS_PATH}/domains/isoforms_aa.fasta_*tsv > ${RESULTS_PATH}/format_domains/isoform_domains.tsv
+
+python format_domains.py ${RESULTS_PATH}/format_domains/isoform_domains.gff3 ${RESULTS_PATH}/format_domains/isoform_domains.tsv ${RESULTS_PATH}/format_domains/

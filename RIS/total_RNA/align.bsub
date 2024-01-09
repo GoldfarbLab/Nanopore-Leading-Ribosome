@@ -1,0 +1,34 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(brookslab/flair:latest)'
+#BSUB -J align
+#BSUB -q general
+#BSUB -n 16
+#BSUB -M 4000
+#BSUB -W 60
+#BSUB -R 'span[hosts=1]'
+#BSUB -o LSF_LOG_PATH/align.%J.out.txt
+#BSUB -e LSF_LOG_PATH/align.%J.err.txt
+
+source LSF_SCRIPT_PATH/config.sh
+
+# Make output directory
+mkdir -p ${RESULTS_PATH}/align/
+
+for dir in ${DATA_PATH}/*; do
+    if [ -d "$dir" ]; then
+        DATA_BASE_NAME=$(basename -- "$dir")
+        echo "Processing dataset: " $DATA_BASE_NAME
+
+        flair align -g ${GENOME} -r ${dir}/*.gz --threads 16 --junction_bed ${INTRONS} --output ${RESULTS_PATH}/align/${DATA_BASE_NAME}.aligned
+
+        flair correct -g ${GENOME} -q ${RESULTS_PATH}/align/${DATA_BASE_NAME}.aligned.bed --threads 16 -j ${INTRONS} --gtf ${ANNOTATIONS} --output ${RESULTS_PATH}/align/${DATA_BASE_NAME}
+    fi
+done
+
+# Concatenate bed files
+cat ${RESULTS_PATH}/align/*all_corrected.bed > ${RESULTS_PATH}/align/combined.corrected.bed
+
+# Concatenate reads
+cat ${DATA_PATH}/**/*.gz > ${RESULTS_PATH}/align/combined.reads.gz

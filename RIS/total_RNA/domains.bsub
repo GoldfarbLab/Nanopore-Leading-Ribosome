@@ -1,0 +1,25 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(vibpsb/interproscan:5.48-83.0)'
+#BSUB -J domains
+#BSUB -q general
+#BSUB -n 32
+#BSUB -M 16000
+#BSUB -W 2400
+#BSUB -R 'span[hosts=1]'
+#BSUB -o LSF_LOG_PATH/domains.%J.out.txt
+#BSUB -e LSF_LOG_PATH/domains.%J.err.txt
+
+export PATH=$PATH:/interproscan-5.48-83.0/:/usr/local/openjdk-11/bin
+export JAVA_HOME=/usr/local/openjdk-11
+export JAVA_VERSION=11.0.9.1
+export CLASSPATH=/usr/local/openjdk-11/bin
+
+source LSF_SCRIPT_PATH/config.sh
+
+# Make output directory
+mkdir -p ${RESULTS_PATH}/domains/
+
+interproscan.sh -d ${RESULTS_PATH}/domains/ -cpu 32 -i ${RESULTS_PATH}/translate/isoforms_aa.fasta -appl TIGRFAM,SFLD,SUPERFAMILY,PANTHER,Gene3D,Hamap,ProSiteProfiles,Coils,SMART,ProSitePatterns,Pfam,MobiDBLite,PIRSF,CDD
+

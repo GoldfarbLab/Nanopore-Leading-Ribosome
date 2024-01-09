@@ -1,0 +1,21 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(dennisgoldfarb/blast_biopython:latest)'
+#BSUB -J translate
+#BSUB -q general
+#BSUB -n 16
+#BSUB -M 4000
+#BSUB -W 60
+#BSUB -R 'span[hosts=1]'
+#BSUB -o LSF_LOG_PATH/translate.%J.out.txt
+#BSUB -e LSF_LOG_PATH/translate.%J.err.txt
+
+source LSF_SCRIPT_PATH/config.sh
+
+# Make output directory
+mkdir -p ${RESULTS_PATH}/translate/
+
+python translate_fasta.py ${RESULTS_PATH}/blast_index/db ${RESULTS_PATH}/collapse/isoforms.fa 25 ${RESULTS_PATH}/translate/isoforms_aa.fasta ${RESULTS_PATH}/translate/tmp_query.fasta 16
+
+rm ${RESULTS_PATH}/translate/tmp_query.fasta

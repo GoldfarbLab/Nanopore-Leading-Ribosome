@@ -12,4 +12,4 @@
 
 source LSF_SCRIPT_PATH/config.sh
 
-bedtools genomecov -ibam ${RESULTS_PATH}/${DATA_NAME}_reads.bam -bg -5 > ${RESULTS_PATH}/${DATA_NAME}.bg 
+bedtools genomecov -ibam ${RESULTS_PATH}/${DATA_NAME}_reads.bam -bg > ${RESULTS_PATH}/${DATA_NAME}.bg 

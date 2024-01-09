@@ -1,0 +1,18 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(mgibio/samtools-cwl:1.16.1)'
+#BSUB -J index
+#BSUB -q general
+#BSUB -n 1
+#BSUB -M 4000
+#BSUB -W 60
+#BSUB -o LSF_LOG_PATH/index.%J.out.txt
+#BSUB -e LSF_LOG_PATH/index.%J.err.txt
+
+source LSF_SCRIPT_PATH/config.sh
+
+# Create index
+samtools faidx -o ${RESULTS_PATH}/collapse/isoforms.fai ${RESULTS_PATH}/collapse/isoforms.fa
+# Extract transcriptome sizes
+cut -f1-2 $TRANSCRIPTOME.fai > $TRANSCRIPTOME.sizes
