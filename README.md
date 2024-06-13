@@ -5,7 +5,7 @@
 
 ### All RNA Pipeline
 
-This generates a reference transcriptome using SQANTI. It uses both the total RNA and nanopore ribosomal profiling reads to construct it.
+This generates a reference transcriptome using SQANTI. It uses both the total RNA and nanopore ribosomal profiling reads to construct it. Afterwards, the standard domain hidden markov models are applied to each transcript to get perfectly aligned domains.
 
 1) align
 2) align_concat
