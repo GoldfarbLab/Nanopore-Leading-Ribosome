@@ -21,6 +21,7 @@
 14) domains
 15) format_domains
 16) domains_qc
+17) index
 
 ### Polysome Pipeline
 
