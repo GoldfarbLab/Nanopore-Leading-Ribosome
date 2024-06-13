@@ -5,6 +5,8 @@
 
 ### All RNA Pipeline
 
+This generates a reference transcriptome using SQANTI. It uses both the total RNA and nanopore ribosomal profiling reads to construct it.
+
 1) align
 2) align_concat
 3) align_qc
@@ -24,6 +26,8 @@
 17) index
 
 ### Polysome Pipeline
+
+This aligns the nanopore reads to the transcriptome and computes pause scores.
 
 1) align
 2) bam
