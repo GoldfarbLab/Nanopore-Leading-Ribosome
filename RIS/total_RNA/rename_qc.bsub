@@ -1,0 +1,19 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(biocontainers/biopython:v1.73dfsg-1-deb-py3_cv1)'
+#BSUB -J rename_qc
+#BSUB -q general
+#BSUB -n 1
+#BSUB -W 60
+#BSUB -o LSF_LOG_PATH/rename_qc.%J.out.txt
+#BSUB -e LSF_LOG_PATH/rename_qc.%J.err.txt
+
+source LSF_SCRIPT_PATH/config.sh
+
+# Make output directory
+mkdir -p ${RESULTS_PATH}/rename_qc/
+# Clean previous results
+rm ${RESULTS_PATH}/rename_qc/*
+
+python3 rename_qc.py ${RESULTS_PATH}/rename/isoforms.faa ${RESULTS_PATH}/rename_qc/qc.txt

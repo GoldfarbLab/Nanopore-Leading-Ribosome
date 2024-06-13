@@ -28,12 +28,19 @@ SCRIPT_PATH=${OUT_PATH}/scripts
 
 # reference files
 GENOME=${REF_PATH}/sacCer3.fa
-INTRONS=${REF_PATH}/introns.bed6
 CHROMSIZE=${REF_PATH}/chrom.sizes
-TRANSCRIPTS=${REF_PATH}/transcripts.gff
+INTRONS=${REF_PATH}/introns.bed6
+PROMOTERS_FASTA=${REF_PATH}/SGD_all_ORFs_5prime_UTRs.fsa
+TES_UTRS_FASTA=${REF_PATH}/SGD_all_ORFs_3prime_UTRs.fsa
+
+PROMOTERS=${REF_PATH}/promoters_extended.bed
+TES_UTRS=${REF_PATH}/3prime_extended.bed
+
 ANNOTATIONS=${REF_PATH}/Saccharomyces_cerevisiae.R64-1-1.110_v3.gtf
 PROTEOME=${REF_PATH}/ref_proteome.fasta
 # Transcriptome generation results
 TRANSCRIPTOME=${REF_PATH}/isoforms.fa
-TRANSCRIPTOME_SIZES=${REF_PATH}/isoforms.fa.sizes
-TRANSCRIPTOME_AA=${REF_PATH}/isoforms_aa.fasta
+TRANSCRIPTOME_SIZES=${REF_PATH}/isoforms.fa.fai.sizes
+TRANSCRIPTOME_AA=${REF_PATH}/isoforms.faa
+DOMAINS=${REF_PATH}/all_domains.gff
+CDS=${REF_PATH}/isoforms.cds.gff

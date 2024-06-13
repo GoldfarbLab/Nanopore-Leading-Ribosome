@@ -15,7 +15,9 @@ source LSF_SCRIPT_PATH/config.sh
 # Make output directory
 mkdir -p ${RESULTS_PATH}/bam
 
-samtools view -h -q 60 -F 2048 ${RESULTS_PATH}/align/${DATA_BASE_NAME}_transcriptome_aligned.sam | samtools sort -@ 8 -o ${RESULTS_PATH}/bam/${DATA_BASE_NAME}_transcriptome_aligned.bam 
+#[AS]>=100*(qlen+sclen)/150]
+samtools view -h -q 0 -e '[AS]>=100' -F 2048 ${RESULTS_PATH}/align/${DATA_BASE_NAME}_transcriptome_aligned.sam > ${RESULTS_PATH}/bam/${DATA_BASE_NAME}_transcriptome_aligned.filtered.sam
+samtools sort -@ 8 -o ${RESULTS_PATH}/bam/${DATA_BASE_NAME}_transcriptome_aligned.bam ${RESULTS_PATH}/bam/${DATA_BASE_NAME}_transcriptome_aligned.filtered.sam
 samtools index ${RESULTS_PATH}/bam/${DATA_BASE_NAME}_transcriptome_aligned.bam 
 
 samtools view -h -q 60 -F 2048 ${RESULTS_PATH}/align/${DATA_BASE_NAME}_genome_aligned.sam | samtools sort -@ 8 -o ${RESULTS_PATH}/bam/${DATA_BASE_NAME}_genome_aligned.bam 

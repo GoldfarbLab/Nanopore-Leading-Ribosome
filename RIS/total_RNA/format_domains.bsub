@@ -16,7 +16,7 @@ source LSF_SCRIPT_PATH/config.sh
 # Make output directory
 mkdir -p ${RESULTS_PATH}/format_domains/
 
-cat ${RESULTS_PATH}/domains/isoforms_aa.fasta_*gff3 > ${RESULTS_PATH}/format_domains/isoform_domains.gff3
-cat ${RESULTS_PATH}/domains/isoforms_aa.fasta_*tsv > ${RESULTS_PATH}/format_domains/isoform_domains.tsv
+cat ${RESULTS_PATH}/domains/**/isoforms.faa.gff3 > ${RESULTS_PATH}/format_domains/isoform_domains.gff3
+cat ${RESULTS_PATH}/domains/**/isoforms.faa.tsv > ${RESULTS_PATH}/format_domains/isoform_domains.tsv
 
-python format_domains.py ${RESULTS_PATH}/format_domains/isoform_domains.gff3 ${RESULTS_PATH}/format_domains/isoform_domains.tsv ${RESULTS_PATH}/format_domains/
+python format_domains.py ${RESULTS_PATH}/format_domains/isoform_domains.tsv ${RESULTS_PATH}/rename/isoforms.cds.gff ${RESULTS_PATH}/rename/isoforms.faa ${RESULTS_PATH}/format_domains/

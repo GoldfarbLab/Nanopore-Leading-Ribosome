@@ -2,14 +2,14 @@
 #BSUB -g LSF_g
 #BSUB -G LSF_G
 #BSUB -a 'docker(brookslab/flair:latest)'
-#BSUB -J collapse
+#BSUB -J collapse[1-24]
 #BSUB -q general
-#BSUB -n 16
-#BSUB -M 64000
+#BSUB -n 8
+#BSUB -M 64G
 #BSUB -W 600
 #BSUB -R 'span[hosts=1]'
-#BSUB -o LSF_LOG_PATH/collapse.%J.out.txt
-#BSUB -e LSF_LOG_PATH/collapse.%J.err.txt
+#BSUB -o LSF_LOG_PATH/collapse.%J.%I.out.txt
+#BSUB -e LSF_LOG_PATH/collapse.%J.%I.err.txt
 
 source LSF_SCRIPT_PATH/config.sh
 
@@ -17,26 +17,17 @@ source LSF_SCRIPT_PATH/config.sh
 mkdir -p ${RESULTS_PATH}/collapse/chrom
 
 # Run flair collapse on each chromsome
+COUNTER=0
 for CHROM_BED in ${RESULTS_PATH}/split/*.bed; do
     if [ -f "$CHROM_BED" ]; then
-        CHROM=$(basename -- "$CHROM_BED")
-        CHROM=${CHROM%.*}
-        echo "Processing chromosome: " $CHROM
-
-        flair collapse -g ${GENOME} --threads 16 --gtf ${RESULTS_PATH}/split/${CHROM}.gtf -q ${CHROM_BED} --output ${RESULTS_PATH}/collapse/chrom/${CHROM} -r ${RESULTS_PATH}/align/combined.reads.gz --stringent --no_gtf_end_adjustment --check_splice --generate_map --trust_ends --annotation_reliant generate
+        if [ $((${COUNTER}%24)) == $((${LSB_JOBINDEX}-1)) ]; then
+            CHROM=$(basename -- "$CHROM_BED")
+            CHROM=${CHROM%.*}
+            echo "Processing chromosome: " $CHROM
+            # --stringent --isoformtss --no_gtf_end_adjustment --no_redundant longest  --filter nosubset --trust_ends
+            flair collapse -g ${GENOME} --threads 8 --gtf ${RESULTS_PATH}/split/${CHROM}.gtf -q ${CHROM_BED} --output ${RESULTS_PATH}/collapse/chrom/${CHROM} -r ${RESULTS_PATH}/reads/combined.reads.gz --check_splice --generate_map --promoters ${PROMOTERS} --3prime_regions ${TES_UTRS}
+        fi
+        COUNTER=$[$COUNTER +1]
     fi
 done
 
-# Concatenate results
-cat ${RESULTS_PATH}/collapse/chrom/*isoforms.fa > ${RESULTS_PATH}/collapse/isoforms.fa
-cat ${RESULTS_PATH}/collapse/chrom/*isoforms.bed > ${RESULTS_PATH}/collapse/isoforms.bed
-cat ${RESULTS_PATH}/collapse/chrom/*isoforms.gtf > ${RESULTS_PATH}/collapse/isoforms.gtf
-cat ${RESULTS_PATH}/collapse/chrom/*isoform.read.map.txt > ${RESULTS_PATH}/collapse/isoform.read.map.txt
-
-cat ${RESULTS_PATH}/collapse/chrom/*annotated_transcripts.alignment.counts > ${RESULTS_PATH}/collapse/annotated_transcripts.alignment.counts
-cat ${RESULTS_PATH}/collapse/chrom/*annotated_transcripts.bed > ${RESULTS_PATH}/collapse/annotated_transcripts.bed
-cat ${RESULTS_PATH}/collapse/chrom/*annotated_transcripts.fa > ${RESULTS_PATH}/collapse/annotated_transcripts.fa
-cat ${RESULTS_PATH}/collapse/chrom/*annotated_transcripts.isoform.read.map.txt > ${RESULTS_PATH}/collapse/annotated_transcripts.isoform.read.map.txt
-cat ${RESULTS_PATH}/collapse/chrom/*annotated_transcripts.supported.bed > ${RESULTS_PATH}/collapse/annotated_transcripts.supported.bed
-
-cat ${RESULTS_PATH}/collapse/chrom/*combined.isoform.read.map.txt > ${RESULTS_PATH}/collapse/combined.isoform.read.map.txt

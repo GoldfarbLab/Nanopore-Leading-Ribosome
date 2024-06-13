@@ -1,0 +1,25 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(ubuntu:latest)'
+#BSUB -J align_concat
+#BSUB -q general
+#BSUB -n 1
+#BSUB -W 60
+#BSUB -o LSF_LOG_PATH/align_concat.%J.out.txt
+#BSUB -e LSF_LOG_PATH/align_concat.%J.err.txt
+
+source LSF_SCRIPT_PATH/config.sh
+
+# Make output directory
+mkdir -p ${RESULTS_PATH}/align_concat/
+# Clean previous results
+rm ${RESULTS_PATH}/align_concat/*
+
+# Concatenate bed files
+cat ${RESULTS_PATH}/align/*all_corrected.bed > ${RESULTS_PATH}/align_concat/combined_all_corrected.bed
+cat ${RESULTS_PATH}/align/*all_inconsistent.bed > ${RESULTS_PATH}/align_concat/combined_all_inconsistent.bed
+# only concat if these file exists. Hopefully they don't!
+if [ ls ${RESULTS_PATH}/align/*cannot_verify.bed 1> /dev/null 2>&1; ] then
+    cat ${RESULTS_PATH}/align/*cannot_verify.bed > ${RESULTS_PATH}/align_concat/combined_cannot_verify.bed
+fi

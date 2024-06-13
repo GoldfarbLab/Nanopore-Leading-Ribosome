@@ -5,8 +5,8 @@
 #BSUB -J split_by_chromo
 #BSUB -q general
 #BSUB -n 1
-#BSUB -M 64000
-#BSUB -W 600
+#BSUB -M 4000
+#BSUB -W 60
 #BSUB -R 'span[hosts=1]'
 #BSUB -o LSF_LOG_PATH/split_by_chromo.%J.out.txt
 #BSUB -e LSF_LOG_PATH/split_by_chromo.%J.err.txt
@@ -15,7 +15,9 @@ source LSF_SCRIPT_PATH/config.sh
 
 # Make output directory
 mkdir -p ${RESULTS_PATH}/split/
+# Clean previous results
+rm ${RESULTS_PATH}/split/*
 
 # Split annotation gtf and bed file
-python3 ${SCRIPT_PATH}/split_by_chromo.py ${ANNOTATIONS} ${RESULTS_PATH}/align/combined.corrected.bed ${RESULTS_PATH}/split/
+python3 ${SCRIPT_PATH}/split_by_chromo.py ${ANNOTATIONS} ${RESULTS_PATH}/align_concat/combined_all_corrected.bed ${RESULTS_PATH}/split/
 

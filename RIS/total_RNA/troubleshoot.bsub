@@ -1,0 +1,20 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(mgibio/samtools-cwl:1.16.1)'
+#BSUB -J troubleshoot
+#BSUB -q general
+#BSUB -n 8
+#BSUB -M 128G
+#BSUB -W 120
+#BSUB -R 'span[hosts=1]'
+#BSUB -o LSF_LOG_PATH/troubleshoot.%J.out.txt
+#BSUB -e LSF_LOG_PATH/troubleshoot.%J.err.txt
+
+source LSF_SCRIPT_PATH/config.sh
+
+# Make output directory
+mkdir -p ${RESULTS_PATH}/troubleshoot/
+
+samtools view -h -q 1 ${RESULTS_PATH}/align/ski2_total_rna.aligned.sam > ${RESULTS_PATH}/troubleshoot/ski2_total_rna.aligned.filtered.sam
+samtools sort -@ 8 -o ${RESULTS_PATH}/troubleshoot/ski2_total_rna.aligned.filtered.bam ${RESULTS_PATH}/troubleshoot/ski2_total_rna.aligned.filtered.sam

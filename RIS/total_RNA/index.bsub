@@ -13,6 +13,9 @@
 source LSF_SCRIPT_PATH/config.sh
 
 # Create index
-samtools faidx -o ${RESULTS_PATH}/collapse/isoforms.fai ${RESULTS_PATH}/collapse/isoforms.fa
+samtools faidx -o ${TRANSCRIPTOME}.fai $TRANSCRIPTOME
+cut -f1-2 ${TRANSCRIPTOME}.fai > ${TRANSCRIPTOME}.fai.sizes
+
+#samtools faidx -o ${RESULTS_PATH}/translate/transcriptome.fa.fai ${RESULTS_PATH}/translate/transcriptome.fa
 # Extract transcriptome sizes
-cut -f1-2 $TRANSCRIPTOME.fai > $TRANSCRIPTOME.sizes
+#cut -f1-2 ${RESULTS_PATH}/translate/transcriptome.fai > ${RESULTS_PATH}/translate/transcriptome.fai.sizes

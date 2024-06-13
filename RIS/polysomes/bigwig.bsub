@@ -16,8 +16,8 @@ source LSF_SCRIPT_PATH/config.sh
 mkdir -p ${RESULTS_PATH}/bigwig
 
 #sort -k1,1 -k2,2n ${RESULTS_PATH}/${DATA_NAME}.bg > ${RESULTS_PATH}/${DATA_NAME}_sorted.bg 
-bedGraphToBigWig ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_occupancy.bg $TRANSCRIPTOME_SIZES ${RESULTS_PATH}/bigwig/${DATA_BASE_NAME}_ribosome_occupancy.bw
+bedGraphToBigWig ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_occupancy.bg ${TRANSCRIPTOME_SIZES} ${RESULTS_PATH}/bigwig/${DATA_BASE_NAME}_ribosome_occupancy.bw
 
-bedGraphToBigWig ${RESULTS_PATH}/pause/${DATA_BASE_NAME}_leading_pause.bg $TRANSCRIPTOME_SIZES ${RESULTS_PATH}/bigwig/${DATA_BASE_NAME}_leading_pause.bw
+bedGraphToBigWig ${RESULTS_PATH}/pause/${DATA_BASE_NAME}_leading_pause.bg ${TRANSCRIPTOME_SIZES} ${RESULTS_PATH}/bigwig/${DATA_BASE_NAME}_leading_pause.bw
 
-bedGraphToBigWig ${RESULTS_PATH}/pause/${DATA_BASE_NAME}_toe_pause.bg $TRANSCRIPTOME_SIZES ${RESULTS_PATH}/bigwig/${DATA_BASE_NAME}_toe_pause.bw
+bedGraphToBigWig ${RESULTS_PATH}/pause/${DATA_BASE_NAME}_toe_pause.bg ${TRANSCRIPTOME_SIZES} ${RESULTS_PATH}/bigwig/${DATA_BASE_NAME}_toe_pause.bw

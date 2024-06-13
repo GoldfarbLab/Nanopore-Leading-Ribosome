@@ -16,5 +16,6 @@ source LSF_SCRIPT_PATH/config.sh
 # Make output directory
 mkdir -p ${RESULTS_PATH}/align
 
-minimap2 -a -x splice -u f -k 14 ${TRANSCRIPTOME} -G 3000 -t 8 --secondary=no --sam-hit-only ${DATA_PATH} > ${RESULTS_PATH}/align/${DATA_BASE_NAME}_transcriptome_aligned.sam
+# --secondary=no
+minimap2 -a -c -x splice -u f -k 14 ${TRANSCRIPTOME} -G 3000 -t 8 --sam-hit-only ${DATA_PATH} > ${RESULTS_PATH}/align/${DATA_BASE_NAME}_transcriptome_aligned.sam
 minimap2 -a -x splice -u f -k 14 ${GENOME} -G 3000 -t 8 --junc-bed ${INTRONS} --secondary=no --sam-hit-only ${DATA_PATH} > ${RESULTS_PATH}/align/${DATA_BASE_NAME}_genome_aligned.sam

@@ -4,7 +4,7 @@
 #BSUB -a 'docker(vibpsb/interproscan:5.48-83.0)'
 #BSUB -J domains
 #BSUB -q general
-#BSUB -n 32
+#BSUB -n 16
 #BSUB -M 16000
 #BSUB -W 2400
 #BSUB -R 'span[hosts=1]'
@@ -19,7 +19,50 @@ export CLASSPATH=/usr/local/openjdk-11/bin
 source LSF_SCRIPT_PATH/config.sh
 
 # Make output directory
-mkdir -p ${RESULTS_PATH}/domains/
+mkdir -p ${RESULTS_PATH}/domains/TIGRAM
+mkdir -p ${RESULTS_PATH}/domains/SFLD
+#mkdir -p ${RESULTS_PATH}/domains/SUPERFAMILY
+mkdir -p ${RESULTS_PATH}/domains/PANTHER
+mkdir -p ${RESULTS_PATH}/domains/Gene3D
+mkdir -p ${RESULTS_PATH}/domains/Hamap
+mkdir -p ${RESULTS_PATH}/domains/ProSiteProfiles
+mkdir -p ${RESULTS_PATH}/domains/Coils
+mkdir -p ${RESULTS_PATH}/domains/SMART
+mkdir -p ${RESULTS_PATH}/domains/ProSitePatterns
+mkdir -p ${RESULTS_PATH}/domains/Pfam
+mkdir -p ${RESULTS_PATH}/domains/MobiDBLite
+mkdir -p ${RESULTS_PATH}/domains/PIRSF
+mkdir -p ${RESULTS_PATH}/domains/CDD
 
-interproscan.sh -d ${RESULTS_PATH}/domains/ -cpu 32 -i ${RESULTS_PATH}/translate/isoforms_aa.fasta -appl TIGRFAM,SFLD,SUPERFAMILY,PANTHER,Gene3D,Hamap,ProSiteProfiles,Coils,SMART,ProSitePatterns,Pfam,MobiDBLite,PIRSF,CDD
+
+interproscan.sh -d ${RESULTS_PATH}/domains/TIGRAM -cpu 16 -i ${RESULTS_PATH}/rename/isoforms.faa -dp -appl TIGRFAM
+rm -r temp
+interproscan.sh -d ${RESULTS_PATH}/domains/SFLD -cpu 16 -i ${RESULTS_PATH}/rename/isoforms.faa -dp -appl SFLD
+rm -r temp
+##interproscan.sh -d ${RESULTS_PATH}/domains/SUPERFAMILY -cpu 16 -i ${RESULTS_PATH}/rename/isoforms.faa -dp -appl SUPERFAMILY
+##rm -r temp
+interproscan.sh -d ${RESULTS_PATH}/domains/PANTHER -cpu 16 -i ${RESULTS_PATH}/rename/isoforms.faa -dp -appl PANTHER
+rm -r temp
+interproscan.sh -d ${RESULTS_PATH}/domains/Gene3D -cpu 16 -i ${RESULTS_PATH}/rename/isoforms.faa -dp -appl Gene3D
+rm -r temp
+interproscan.sh -d ${RESULTS_PATH}/domains/Hamap -cpu 16 -i ${RESULTS_PATH}/rename/isoforms.faa -dp -appl Hamap
+rm -r temp
+interproscan.sh -d ${RESULTS_PATH}/domains/ProSiteProfiles -cpu 16 -i ${RESULTS_PATH}/rename/isoforms.faa -dp -appl ProSiteProfiles
+rm -r temp
+interproscan.sh -d ${RESULTS_PATH}/domains/Coils -cpu 16 -i ${RESULTS_PATH}/rename/isoforms.faa -dp -appl Coils
+rm -r temp
+interproscan.sh -d ${RESULTS_PATH}/domains/SMART -cpu 16 -i ${RESULTS_PATH}/rename/isoforms.faa -dp -appl SMART
+rm -r temp
+interproscan.sh -d ${RESULTS_PATH}/domains/ProSitePatterns -cpu 16 -i ${RESULTS_PATH}/rename/isoforms.faa -dp -appl ProSitePatterns
+rm -r temp
+interproscan.sh -d ${RESULTS_PATH}/domains/Pfam -cpu 16 -i ${RESULTS_PATH}/rename/isoforms.faa -dp -appl Pfam
+rm -r temp
+interproscan.sh -d ${RESULTS_PATH}/domains/MobiDBLite -cpu 16 -i ${RESULTS_PATH}/rename/isoforms.faa -dp -appl MobiDBLite
+rm -r temp
+interproscan.sh -d ${RESULTS_PATH}/domains/PIRSF -cpu 16 -i ${RESULTS_PATH}/rename/isoforms.faa -dp -appl PIRSF
+rm -r temp
+interproscan.sh -d ${RESULTS_PATH}/domains/CDD -cpu 16 -i ${RESULTS_PATH}/rename/isoforms.faa -dp -appl CDD
+rm -r temp
+
+#SFLD,SUPERFAMILY,PANTHER,Gene3D,Hamap,ProSiteProfiles,Coils,SMART,ProSitePatterns,Pfam,MobiDBLite,PIRSF,CDD
 

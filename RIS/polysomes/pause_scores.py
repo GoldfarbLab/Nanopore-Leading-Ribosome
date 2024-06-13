@@ -18,7 +18,7 @@ def moving_average(x, w):
     return np.convolve(x, np.ones(w), 'same') / w
 
 def get_transcript_density(bg_transcript_df, size):
-    return sum((bg_transcript_df[2] - bg_transcript_df[1] - 1) * bg_transcript_df[3]) / size
+    return sum((bg_transcript_df[2] - bg_transcript_df[1]) * bg_transcript_df[3]) / size
 
 def get_local_densities(read_counts, motif_length):    
     return moving_average(read_counts, motif_length)
@@ -61,15 +61,15 @@ def write_scores_bg(out_path, transcript2scores, result_index):
 def write_scores_tsv(out_path, transcript2scores, result_index):
     with open(out_path, 'w') as csvfile: 
         csvwriter = csv.writer(csvfile, delimiter='\t')
-        csvwriter.writerow(["Transcript", "index", "pause_score", "read_count", "local_density"])
+        csvwriter.writerow(["Transcript", "index", "pause_score", "read_count", "local_density", "transcript_density"])
         for entry in transcript2scores:
             
             transcript = entry[0]
             for i, score in enumerate(entry[result_index]):
-                csvwriter.writerow([transcript, str(i), str(score), str(entry[3][i]), str(entry[4][i])]) 
+                csvwriter.writerow([transcript, str(i), str(score), str(entry[3][i]), str(entry[4][i]), str(entry[5])]) 
                 
 def process_transcripts(transcript):
-    #if ("YHR197W_mRNA_YHR197W" not in transcript): return ['', '', '']
+    #if ("0021b0cb" not in transcript): return ['', '', '']
     #print(transcript)
     bg_transcript_df = bg_df[bg_df[0] == transcript]
     size = sizes_df[sizes_df[0] == transcript].iloc[0][1]
@@ -84,7 +84,7 @@ def process_transcripts(transcript):
     # Filter for depth
     #filtered_leading_pause_scores = filter_for_depth(leading_pause_scores, read_counts, 10)
     
-    return [transcript, leading_pause_scores, toeprinting_pause_scores, read_counts, local_densities]
+    return [transcript, leading_pause_scores, toeprinting_pause_scores, read_counts, local_densities, transcript_density]
 
 
 

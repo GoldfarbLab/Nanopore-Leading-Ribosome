@@ -1,0 +1,20 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(ubuntu:latest)'
+#BSUB -J reads
+#BSUB -q general
+#BSUB -n 1
+#BSUB -W 60
+#BSUB -o LSF_LOG_PATH/reads.%J.out.txt
+#BSUB -e LSF_LOG_PATH/reads.%J.err.txt
+
+source LSF_SCRIPT_PATH/config.sh
+
+# Make output directory
+mkdir -p ${RESULTS_PATH}/reads/
+# Clean previous results
+rm ${RESULTS_PATH}/reads/*
+
+# Concatenate reads
+cat ${DATA_PATH}/**/**/*.gz > ${RESULTS_PATH}/reads/combined.reads.gz

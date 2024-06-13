@@ -1,0 +1,23 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(biocontainers/pandas:1.5.1_cv1)'
+#BSUB -J collapse_qc
+#BSUB -q general
+#BSUB -n 1
+#BSUB -M 4000
+#BSUB -W 60
+#BSUB -R 'span[hosts=1]'
+#BSUB -o LSF_LOG_PATH/collapse_qc.%J.out.txt
+#BSUB -e LSF_LOG_PATH/collapse_qc.%J.err.txt
+
+source LSF_SCRIPT_PATH/config.sh
+
+# Make output directory
+mkdir -p ${RESULTS_PATH}/collapse_qc/
+# Clean previous results
+rm ${RESULTS_PATH}/collapse_qc/*
+
+# Split annotation gtf and bed file
+python3 ${SCRIPT_PATH}/collapse_qc.py ${RESULTS_PATH}/collapse_concat/isoforms.bed ${RESULTS_PATH}/collapse_qc/qc.txt
+

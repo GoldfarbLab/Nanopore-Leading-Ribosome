@@ -4,7 +4,7 @@
 #BSUB -a 'docker(biocontainers/pandas:1.5.1_cv1)'
 #BSUB -J pause
 #BSUB -q general
-#BSUB -n 16
+#BSUB -n 4
 #BSUB -M 4000
 #BSUB -W 600
 #BSUB -R 'span[hosts=1]'
@@ -17,5 +17,5 @@ source LSF_SCRIPT_PATH/config.sh
 mkdir -p ${RESULTS_PATH}/pause/
 
 # Split annotation gtf and bed file
-python3 ${SCRIPT_PATH}/pause_scores.py ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_occupancy.bg ${TRANSCRIPTOME_SIZES} 30 16 ${RESULTS_PATH}/pause/${DATA_BASE_NAME}
+python3 ${SCRIPT_PATH}/pause_scores.py ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_ribosome_occupancy.bg ${TRANSCRIPTOME_SIZES} 30 4 ${RESULTS_PATH}/pause/${DATA_BASE_NAME}
 

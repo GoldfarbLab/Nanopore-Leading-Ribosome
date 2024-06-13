@@ -1,0 +1,23 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(biocontainers/biopython:v1.73dfsg-1-deb-py3_cv1)'
+#BSUB -J isoform_collapse
+#BSUB -q general
+#BSUB -n 1
+#BSUB -M 4000
+#BSUB -W 60
+#BSUB -R 'span[hosts=1]'
+#BSUB -o LSF_LOG_PATH/isoform_collapse.%J.out.txt
+#BSUB -e LSF_LOG_PATH/isoform_collapse.%J.err.txt
+
+source LSF_SCRIPT_PATH/config.sh
+
+# Make output directory
+mkdir -p ${RESULTS_PATH}/isoform_collapse/
+# Clean previous results
+rm ${RESULTS_PATH}/isoform_collapse/*
+
+# Rename transcripts and fasta entries to have accessions, genes, and isoform_index
+python3 ${SCRIPT_PATH}/isoform_collapse.py ${RESULTS_PATH}/rename/isoforms.fa ${RESULTS_PATH}/rename/isoforms.faa ${RESULTS_PATH}/isoform_collapse/
+

@@ -1,0 +1,31 @@
+#!/bin/bash
+#BSUB -g LSF_g
+#BSUB -G LSF_G
+#BSUB -a 'docker(ubuntu:latest)'
+#BSUB -J collapse_concat
+#BSUB -q general
+#BSUB -n 1
+#BSUB -W 60
+#BSUB -o LSF_LOG_PATH/collapse_concat.%J.out.txt
+#BSUB -e LSF_LOG_PATH/collapse_concat.%J.err.txt
+
+source LSF_SCRIPT_PATH/config.sh
+
+# Make output directory
+mkdir -p ${RESULTS_PATH}/collapse_concat/
+# Clean previous results
+rm ${RESULTS_PATH}/collapse_concat/*
+
+# Concatenate results
+cat ${RESULTS_PATH}/collapse/chrom/*isoforms.fa > ${RESULTS_PATH}/collapse_concat/isoforms.fa
+cat ${RESULTS_PATH}/collapse/chrom/*isoforms.bed > ${RESULTS_PATH}/collapse_concat/isoforms.bed
+cat ${RESULTS_PATH}/collapse/chrom/*isoforms.gtf > ${RESULTS_PATH}/collapse_concat/isoforms.gtf
+cat ${RESULTS_PATH}/collapse/chrom/*isoform.read.map.txt > ${RESULTS_PATH}/collapse_concat/isoform.read.map.txt
+
+#cat ${RESULTS_PATH}/collapse/chrom/*annotated_transcripts.alignment.counts > ${RESULTS_PATH}/collapse_concat/annotated_transcripts.alignment.counts
+#cat ${RESULTS_PATH}/collapse/chrom/*annotated_transcripts.bed > ${RESULTS_PATH}/collapse_concat/annotated_transcripts.bed
+#cat ${RESULTS_PATH}/collapse/chrom/*annotated_transcripts.fa > ${RESULTS_PATH}/collapse_concat/annotated_transcripts.fa
+#cat ${RESULTS_PATH}/collapse/chrom/*annotated_transcripts.isoform.read.map.txt > ${RESULTS_PATH}/collapse_concat/annotated_transcripts.isoform.read.map.txt
+#cat ${RESULTS_PATH}/collapse/chrom/*annotated_transcripts.supported.bed > ${RESULTS_PATH}/collapse_concat/annotated_transcripts.supported.bed
+
+#cat ${RESULTS_PATH}/collapse/chrom/*combined.isoform.read.map.txt > ${RESULTS_PATH}/collapse_concat/combined.isoform.read.map.txt

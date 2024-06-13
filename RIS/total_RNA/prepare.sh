@@ -22,7 +22,7 @@ mkdir -p $SCRIPT_PATH
 mv ./config.sh $SCRIPT_PATH
 
 # Update scripts with dataset specific parameters
-declare -a scripts=("align.bsub" "split.bsub" "collapse.bsub" "index.bsub" "blast_index.bsub" "translate.bsub" "domains.bsub" "format_domains.bsub")
+declare -a scripts=("reads.bsub" "align.bsub" "align_concat.bsub" "align_qc.bsub" "split.bsub" "collapse.bsub" "collapse_concat.bsub" "collapse_qc.bsub" "sqanti.bsub" "blast_index.bsub" "translate.bsub" "rename.bsub" "rename_qc.bsub" "domains.bsub" "format_domains.bsub" "domains.bsub" "domains_qc.bsub" "index.bsub")
 
 for val in ${scripts[@]}; do
     sed "s+LSF_g+$LSF_g+g" < $val > $SCRIPT_PATH/$val
