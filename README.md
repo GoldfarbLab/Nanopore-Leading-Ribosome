@@ -3,7 +3,7 @@
 1) utr
 2) bed
 
-### Total RNA Pipeline
+### All RNA Pipeline
 
 1) align
 2) align_concat
