@@ -23,6 +23,12 @@ source ${SCRATCH_PATH}/${DATA_SET_NAME}/total_RNA/scripts/config.sh
 jid1=$(get_jobid bsub < $SCRIPT_PATH/align.bsub)
 echo Submitted align job for $DATA_SET_NAME with ID: $jid1
 
+jid1_1=$(get_jobid bsub < $SCRIPT_PATH/bam.bsub)
+echo Submitted bam job for $DATA_SET_NAME with ID: $jid1_1
+
+jid1_2=$(get_jobid bsub < $SCRIPT_PATH/flair.bsub)
+echo Submitted flair job for $DATA_SET_NAME with ID: $jid1_2
+
 jid2=$(get_jobid bsub -w "ended($jid1)" < $SCRIPT_PATH/align_concat.bsub)
 echo Submitted align_concat job for $DATA_SET_NAME with ID: $jid2
 
