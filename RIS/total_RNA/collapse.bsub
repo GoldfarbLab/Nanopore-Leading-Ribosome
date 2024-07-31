@@ -25,8 +25,10 @@ for CHROM_BED in ${RESULTS_PATH}/split/*.bed; do
             CHROM=${CHROM%.*}
             echo "Processing chromosome: " $CHROM
             # --stringent --isoformtss --no_gtf_end_adjustment --no_redundant longest  --filter nosubset --trust_ends
-            # using recommended settings; the latest annotation has UTR information included so no need for isoformTSS/TES
-            flair collapse -g ${GENOME} --threads 8 --gtf ${RESULTS_PATH}/split/${CHROM}.gtf -q ${CHROM_BED} --output ${RESULTS_PATH}/collapse/chrom/${CHROM} -r ${RESULTS_PATH}/reads/combined.reads.gz --check_splice --stringent --generate_map --annotation-reliant generate --trust_ends
+            # using recommended settings for novel isoform detection in yeast as written in the FLAIR manual; the latest annotation has UTR information included so may preclude the need for isoformTSS/TES
+            # Another reason is that we are unlikely to see the 5' end of the transcript in the polysome reads so it is unclear if defining the TSS is helpful. It is also unclear how FLAIR handles GTFs with the full length transcripts included but the TSS/TES options not defined
+            # also unclear if better to use the no_gtf_end_adjustment option or not since we want to be stringent about isoforms
+            flair collapse -g ${GENOME} --threads 8 --gtf ${RESULTS_PATH}/split/${CHROM}.gtf -q ${CHROM_BED} --output ${RESULTS_PATH}/collapse/chrom/${CHROM} -r ${RESULTS_PATH}/reads/combined.reads.gz --check_splice --stringent --generate_map --annotation-reliant generate --trust_ends --no_gtf_end_adjustment
         fi
         COUNTER=$[$COUNTER +1]
     fi
