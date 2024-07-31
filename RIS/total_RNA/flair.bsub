@@ -14,20 +14,7 @@
 source LSF_SCRIPT_PATH/config.sh
 
 # Make output directory
-mkdir -p ${RESULTS_PATH}/align/
+mkdir -p ${RESULTS_PATH}/bed/
 
-COUNTER=0
-for dir in ${DATA_PATH}/**/*; do
-    if [ -d "$dir" ]; then
-        if [ $((${COUNTER}%10)) == $((${LSB_JOBINDEX}-1)) ]; then
-            DATA_BASE_NAME=$(basename -- "$dir")
-            echo "Processing dataset: " $DATA_BASE_NAME
-
-            bam2Bed12 -i {RESULTS_PATH}/align/${DATA_BASE_NAME}.aligned.bam
-
-            flair correct -g ${GENOME} -q ${RESULTS_PATH}/align/${DATA_BASE_NAME}.aligned.bed --threads 8 -j ${INTRONS} --gtf ${ANNOTATIONS} --output ${RESULTS_PATH}/align/${DATA_BASE_NAME}
-        fi
-        COUNTER=$[$COUNTER +1]
-    fi
-done
-
+bam2Bed12 -i {RESULTS_PATH}/align/${DATA_BASE_NAME}_genome_aligned.bam > ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_genome_aligned.bed
+flair correct -g ${GENOME} -q ${RESULTS_PATH}/bed/${DATA_BASE_NAME}_genome_aligned.bed --threads 8 -j ${INTRONS} --gtf ${ANNOTATIONS} --output ${RESULTS_PATH}/align/${DATA_BASE_NAME}
