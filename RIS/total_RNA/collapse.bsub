@@ -25,7 +25,8 @@ for CHROM_BED in ${RESULTS_PATH}/split/*.bed; do
             CHROM=${CHROM%.*}
             echo "Processing chromosome: " $CHROM
             # --stringent --isoformtss --no_gtf_end_adjustment --no_redundant longest  --filter nosubset --trust_ends
-            flair collapse -g ${GENOME} --threads 8 --gtf ${RESULTS_PATH}/split/${CHROM}.gtf -q ${CHROM_BED} --output ${RESULTS_PATH}/collapse/chrom/${CHROM} -r ${RESULTS_PATH}/reads/combined.reads.gz --check_splice --generate_map --promoters ${PROMOTERS} --3prime_regions ${TES_UTRS}
+            # using recommended settings; the latest annotation has UTR information included so no need for isoformTSS/TES
+            flair collapse -g ${GENOME} --threads 8 --gtf ${RESULTS_PATH}/split/${CHROM}.gtf -q ${CHROM_BED} --output ${RESULTS_PATH}/collapse/chrom/${CHROM} -r ${RESULTS_PATH}/reads/combined.reads.gz --check_splice --stringent --generate_map --annotation-reliant generate --trust_ends
         fi
         COUNTER=$[$COUNTER +1]
     fi
